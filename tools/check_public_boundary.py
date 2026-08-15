@@ -16,6 +16,7 @@ ALLOWED_ROOTS = {
     "models",
     "native",
     "notebooks",
+    "requirements",
     "scripts",
     "src",
     "tests",

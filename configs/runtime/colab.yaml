@@ -1,0 +1,22 @@
+schema_version: 1
+python: '3.11'
+baseline_gpu: T4
+private_root_env: MOYI_PRIVATE_ROOT
+profiles:
+  T4: {precision: fp16, teacher_batch_size: 2, student_batch_size: 4}
+  L4: {precision: fp16, teacher_batch_size: 4, student_batch_size: 8}
+  A100: {precision: bf16, teacher_batch_size: 8, student_batch_size: 16}
+checkpoint:
+  atomic_directory_commit: true
+  latest_pointer: latest.json
+  required_state:
+    - optimizer
+    - scheduler
+    - scaler
+    - rng
+    - epoch
+    - global_step
+    - dataset_cursor
+    - config_sha256
+    - dataset_revision
+    - git_commit
