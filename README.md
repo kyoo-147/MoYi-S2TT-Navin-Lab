@@ -74,6 +74,12 @@ The foundation and interruption test are locally verified. Fresh Colab/T4 execut
 uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
 ```
 
+## Whisper Tiny training gate
+
+The 39M `openai/whisper-tiny` initialization is pinned for two VI→EN pipeline gates: a deterministic 32-row overfit run and a bounded 500-row smoke run. Selection hashes seed/source IDs, validates audio hashes and frozen-evaluation exclusion, and uses length-bounded materialized audio only.
+
+Before resuming, the runner compares config/data/model/selected-ID contracts and rejects incomplete Hugging Face checkpoints missing optimizer, scheduler, trainer, or RNG state. All weights and decoded examples stay under `MOYI_PRIVATE_ROOT`; only aggregate evidence may enter Git. GPU runs remain `NOT_RUN` until accepted private labels and signed-in Colab are available.
+
 ## Resumable pseudo-label shards
 
 `ShardRunner` sorts source IDs, hashes each shard input, writes JSONL atomically, and records attempts/output hashes in SQLite. Completed shards are integrity-checked and skipped on resume. Private `PseudoLabelCandidate` rows retain ASR, MT, direct-S2TT, revisions, licenses, timestamps, generation hashes, or an explicit failure stage/reason.

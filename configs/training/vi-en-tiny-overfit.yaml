@@ -1,0 +1,22 @@
+schema_version: 1
+id: vi-en-tiny-overfit-v1
+direction: vi-en
+mode: overfit
+model_id: openai/whisper-tiny
+model_revision: 169d4a4341b33bc18d8881c4b69c2e104e1cc0af
+model_license: Apache-2.0
+seed: 147
+max_audio_seconds: 30
+max_rows: 32
+validation_fraction: 0.0
+max_steps: 200
+learning_rate: 0.0001
+per_device_batch_size: 4
+gradient_accumulation_steps: 1
+save_steps: 25
+eval_steps: 25
+mixed_precision: fp16
+source_language: vi
+target_language: en
+task: translate
+expected_parameter_range_millions: [30, 50]
