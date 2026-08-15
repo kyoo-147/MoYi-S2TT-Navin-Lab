@@ -53,6 +53,19 @@ uv run moyi-s2tt list-directions
 
 FLEURS and Common Voice share a canonical source-audio contract. Common Voice Scripted Speech 26.0 is pinned for VI/EN/ZH-CN/KO metadata, with VI first. Its content is listed as CC0-1.0, while current access terms require Mozilla Data Collective authentication and terms acceptance and restrict mirroring. No Common Voice archive or row is redistributed here, and the source remains unaccepted until a real archive checksum, TSV parse, audio probe, and cross-split leakage report pass.
 
+## Resumable Colab workflow
+
+Seven output-free notebooks under `notebooks/` delegate to one shared runtime runner. Package versions are pinned in `requirements/colab.lock.txt`; T4 is the required budget baseline, with conservative L4/A100 profiles. Private inputs and checkpoints must be rooted outside this checkout through `MOYI_PRIVATE_ROOT`—no Drive ID is embedded in the repository.
+
+Atomic checkpoints record config and dataset revisions, Git commit, global step, epoch, data cursor, RNG state, and SHA-256 hashes for caller-supplied optimizer/scheduler/scaler artifacts. Resume fails closed on incompatible config/data or corrupt payloads.
+
+```bash
+uv run python -m moyi_s2tt.runtime.runner environment
+uv run python tools/check_notebooks.py
+```
+
+The foundation and interruption test are locally verified. Fresh Colab/T4 execution remains `UNVERIFIED` until a real hosted run is captured; later stage notebooks intentionally return `execution_not_implemented` until their corresponding checkpoints land.
+
 ## Frozen evaluation
 
 `vi-en-fleurs-v1` freezes 149 aligned validation and 347 aligned test semantic IDs at the pinned FLEURS revision. Their 496-ID union is a mandatory exclusion set for training and pseudo-label generation. Conversation and industrial human evaluation remain explicitly unavailable; FLEURS read speech is not used to claim those domains.

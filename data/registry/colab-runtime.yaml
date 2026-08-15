@@ -1,0 +1,20 @@
+schema_version: 1
+status: local-contract-verified-colab-unverified
+python: '3.11'
+package_lock: requirements/colab.lock.txt
+baseline_gpu: T4
+private_storage_env: MOYI_PRIVATE_ROOT
+checkpoint_contract:
+  atomic: true
+  latest_pointer: latest.json
+  artifact_sha256: true
+  compatibility_keys: [run_id, config_sha256, dataset_revision]
+  state: [optimizer, scheduler, scaler, rng, epoch, global_step, dataset_cursor, git_commit]
+verification:
+  local_interruption_resume: VERIFIED
+  notebook_cleanliness: VERIFIED
+  fresh_google_colab: UNVERIFIED
+  t4_execution: UNVERIFIED
+limitations:
+  - Package pins were resolved from current public package indexes but have not yet been installed together on Colab.
+  - Teacher/training/evaluation/export notebook stages remain execution_not_implemented until their checkpoints land.
