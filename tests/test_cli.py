@@ -28,3 +28,12 @@ def test_validate_manifest_command(tmp_path: Path, capsys: object) -> None:
         "rows": 3,
         "split_issues": 0,
     }
+
+
+def test_validate_teacher_catalog(capsys: object) -> None:
+    root = Path(__file__).resolve().parents[1]
+    assert main(["validate-teachers", "--root", str(root)]) == 0
+    assert json.loads(capsys.readouterr().out) == {  # type: ignore[attr-defined]
+        "approved": 0,
+        "teachers": 5,
+    }

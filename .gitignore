@@ -10,6 +10,8 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+*.sqlite
+*.sqlite3
 
 # Secrets and local environment
 .env
