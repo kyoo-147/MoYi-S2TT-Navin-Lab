@@ -74,6 +74,18 @@ The foundation and interruption test are locally verified. Fresh Colab/T4 execut
 uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
 ```
 
+## Pinned teacher audit
+
+The first VI→EN audit contract pins Whisper Turbo ASR, NLLB-200 distilled 600M MT, and Whisper large-v3 direct speech translation to immutable Hugging Face commits. `openai/whisper-tiny` is pinned as the 39M smoke initialization. These are reproducibility declarations, not approvals or quality evidence.
+
+`scripts/materialize_fleurs_audit.py` streams at most 100 leakage-clean FLEURS training rows into `MOYI_PRIVATE_ROOT`; `scripts/run_teacher_audit.py` validates every audio hash, reuses the content-addressed cache, and emits only sanitized aggregates. NLLB remains noncommercial research-only, and SeamlessM4T is `HOLD`.
+
+```bash
+export MOYI_PRIVATE_ROOT=/path/outside/this/repository
+uv run python scripts/materialize_fleurs_audit.py --limit 100
+# Real inference requires the pinned Colab environment and materialized private manifest.
+```
+
 ## Offline teacher boundary
 
 Teacher candidates for Whisper, NLLB, OPUS-MT, and Seamless are declarative and validated with:

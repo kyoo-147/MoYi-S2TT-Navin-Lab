@@ -13,13 +13,17 @@ def test_public_teacher_catalog_is_declarative_and_unapproved() -> None:
     assert len(specs) == 5
     assert {spec.task for spec in specs} == {"asr", "mt", "s2tt"}
     assert not [spec for spec in specs if spec.status == "approved"]
-    assert all(spec.revision is None for spec in specs)
+    assert len([spec for spec in specs if spec.status == "pinned"]) == 3
+    assert all(spec.revision for spec in specs if spec.status == "pinned")
+    assert next(spec for spec in specs if spec.id == "openai/whisper-large-v3-turbo").revision == (
+        "41f01f3fe87f28c78e2fbf8b568835947dd65ed9"
+    )
     seamless = next(spec for spec in specs if spec.id == "facebook/seamless-m4t-v2-large")
     assert seamless.research_only is True
 
 
 def test_approved_teacher_requires_pinned_revision() -> None:
-    with pytest.raises(ValueError, match="pinned revision"):
+    with pytest.raises(ValueError, match="immutable revision"):
         TeacherSpec(
             id="fixture/teacher",
             task="mt",

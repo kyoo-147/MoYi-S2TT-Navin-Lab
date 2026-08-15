@@ -1,8 +1,10 @@
 id: openai/whisper-large-v3-turbo
 task: asr
-status: candidate
-revision: null
+status: pinned
+revision: 41f01f3fe87f28c78e2fbf8b568835947dd65ed9
 license: MIT
 research_only: false
 directions: [vi-en, en-vi, vi-zh, zh-vi, vi-ko, ko-vi]
-notes: Revision and decoding contract must be pinned before inference.
+model_card_url: https://huggingface.co/openai/whisper-large-v3-turbo
+license_url: https://github.com/openai/whisper/blob/main/LICENSE
+notes: Pinned for VI-EN audit; not approved until real inference evidence passes.

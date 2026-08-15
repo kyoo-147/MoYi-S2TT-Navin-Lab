@@ -9,3 +9,4 @@ onnx==1.22.0
 onnxruntime==1.28.0
 sentencepiece==0.2.2
 safetensors==0.8.0
+soundfile==0.14.0

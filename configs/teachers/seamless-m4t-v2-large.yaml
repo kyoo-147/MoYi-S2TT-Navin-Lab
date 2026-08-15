@@ -1,8 +1,10 @@
 id: facebook/seamless-m4t-v2-large
 task: s2tt
 status: candidate
-revision: null
-license: Seamless
+revision: 5f8cc790b19fc3f67a61c105133b20b34e3dcb76
+license: CC-BY-NC-4.0
 research_only: true
 directions: [vi-en, en-vi, vi-zh, zh-vi, vi-ko, ko-vi]
-notes: Audit-only candidate under noncommercial terms; output restrictions remain attached.
+model_card_url: https://huggingface.co/facebook/seamless-m4t-v2-large
+license_url: https://creativecommons.org/licenses/by-nc/4.0/
+notes: HOLD; pinned for traceability but excluded from the first run pending separate output/terms review.

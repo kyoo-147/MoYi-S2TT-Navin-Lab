@@ -1,0 +1,33 @@
+schema_version: 1
+verified_from_hugging_face_api: '2026-08-15'
+execution_status: NOT_RUN
+teachers:
+  whisper_asr:
+    id: openai/whisper-large-v3-turbo
+    revision: 41f01f3fe87f28c78e2fbf8b568835947dd65ed9
+    license: MIT
+    status: pinned_not_approved
+  nllb_mt:
+    id: facebook/nllb-200-distilled-600M
+    revision: f8d333a098d19b4fd9a8b18f94170487ad3f821d
+    license: CC-BY-NC-4.0
+    status: pinned_not_approved_noncommercial_research
+  whisper_direct_s2tt:
+    id: openai/whisper-large-v3
+    revision: 06f233fe06e710322aca913c1bc4249a0d71fce1
+    license: Apache-2.0
+    status: pinned_not_approved
+  seamless_m4t:
+    id: facebook/seamless-m4t-v2-large
+    revision: 5f8cc790b19fc3f67a61c105133b20b34e3dcb76
+    license: CC-BY-NC-4.0
+    status: HOLD
+    reason: Separate terms/output review is required before execution.
+student_initialization:
+  id: openai/whisper-tiny
+  revision: 169d4a4341b33bc18d8881c4b69c2e104e1cc0af
+  license: Apache-2.0
+truth_boundary:
+  - Immutable model revisions are verified; this does not approve model outputs or a production license.
+  - NLLB and SeamlessM4T are noncommercial research candidates.
+  - No real teacher inference evidence exists until a private audit run completes.

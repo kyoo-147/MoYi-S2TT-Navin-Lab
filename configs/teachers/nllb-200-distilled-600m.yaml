@@ -1,8 +1,10 @@
 id: facebook/nllb-200-distilled-600M
 task: mt
-status: candidate
-revision: null
+status: pinned
+revision: f8d333a098d19b4fd9a8b18f94170487ad3f821d
 license: CC-BY-NC-4.0
 research_only: true
 directions: [vi-en, en-vi, vi-zh, zh-vi, vi-ko, ko-vi]
-notes: Noncommercial research candidate; revision and language-token config are not approved yet.
+model_card_url: https://huggingface.co/facebook/nllb-200-distilled-600M
+license_url: https://creativecommons.org/licenses/by-nc/4.0/
+notes: Pinned noncommercial research candidate; not approved until real audit passes.
