@@ -64,3 +64,16 @@ def test_validate_source_manifest_command(tmp_path: Path, capsys: object) -> Non
         "rows": 1,
         "split_issues": 0,
     }
+
+
+def test_validate_evaluation_contract(capsys: object) -> None:
+    root = Path(__file__).resolve().parents[1]
+    path = root / "data" / "evaluation" / "vi-en-fleurs-v1.json"
+    assert main(["validate-evaluation", str(path)]) == 0
+    output = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+    assert output == {
+        "sha256": "0a8ef907dd1b3f123e6f05daa1010d1fc190714c376075cca43b96935ddd0901",
+        "test": 347,
+        "training_exclusions": 496,
+        "validation": 149,
+    }
