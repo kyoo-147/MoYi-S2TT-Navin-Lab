@@ -1,0 +1,8 @@
+name: vi-en-smoke
+objective: smoke
+direction: vi-en
+student_tier: tiny
+seed: 147
+max_audio_seconds: 30.0
+data_manifest: data/manifests/vi-en-smoke.jsonl
+output_dir: outputs/vi-en-smoke

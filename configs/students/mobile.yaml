@@ -1,0 +1,5 @@
+name: mobile
+role: Low-latency mobile candidate
+parameter_min_millions: 70
+parameter_max_millions: 90
+deployment_gate: Retain only if frozen quality gates pass on measured mobile runtime

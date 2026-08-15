@@ -1,0 +1,62 @@
+# Python and tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+secrets/
+private/
+
+# Confidential material must never enter this repository
+docs/
+briefs/
+proposals/
+research-notes/
+
+# Data lifecycle: only schemas, registries, manifests and approved fixtures are tracked
+data/raw/
+data/interim/
+data/processed/
+data/pseudo_labels/
+data/downloads/
+
+# Training and export artifacts
+checkpoints/
+artifacts/
+outputs/
+wandb/
+mlruns/
+*.onnx
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.gguf
+*.tflite
+*.qnn
+
+# Audio is ignored by default; add approved fixtures with an explicit force-add review
+*.wav
+*.flac
+*.mp3
+*.m4a
+*.pcm
+
+# Notebook/editor/OS noise
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+name: tiny
+role: Pipeline smoke proof
+parameter_min_millions: 30
+parameter_max_millions: 50
+deployment_gate: Prove data, KD, export, and runtime contracts; no product-quality claim

@@ -1,0 +1,25 @@
+sources:
+  - id: google-fleurs
+    status: candidate
+    intended_use: aligned multilingual seed and controlled evaluation
+    license: CC-BY-4.0
+    revision: null
+    accepted: false
+  - id: mozilla-common-voice
+    status: candidate
+    intended_use: transcribed source speech for teacher-generated targets
+    license: release-specific
+    revision: null
+    accepted: false
+  - id: covost-2
+    status: candidate
+    intended_use: genuine EN-ZH speech translation baseline
+    license: asset-specific
+    revision: null
+    accepted: false
+  - id: ksponspeech
+    status: hold
+    intended_use: Korean spontaneous ASR source
+    license: official-AIHub-terms-unverified
+    revision: null
+    accepted: false
