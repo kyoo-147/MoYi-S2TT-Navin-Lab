@@ -1,17 +1,22 @@
 version: 1
 directions: [vi-en]
-status: deterministic-smoke-only
+status: deterministic-contract-human-calibration-pending
 hard_checks:
   - number-preservation
   - abbreviated-unit-preservation
   - negation-preservation
   - repetition
+  - source-transcript-wer
+  - duration-to-target-length
 optional_checks:
   - teacher-specific-confidence
   - lexical-multi-teacher-agreement
   - target-language-identification
+  - semantic-multi-teacher-agreement
 limitations:
   - Lexical agreement is not semantic agreement.
   - Language identification requires an external validated detector; unknown is retained as an audit flag.
   - Unit matching currently covers symbols and abbreviations, not translated unit words.
   - Passing filters does not make a teacher label gold or human-verified.
+  - Thresholds must not be called calibrated until false-accept and false-reject samples are reviewed.
+  - Real accepted/rejected counts remain NOT_RUN while the teacher audit is blocked.

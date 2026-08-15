@@ -1,9 +1,13 @@
 direction: vi-en
-max_repeated_token_fraction: 0.5
+max_repeated_token_fraction: 0.35
 min_confidence_proxy: null
-min_lexical_agreement: null
+min_lexical_agreement: 0.10
 require_language_id: false
+max_transcript_wer: 0.45
+min_chars_per_second: 0.25
+max_chars_per_second: 35.0
+min_semantic_agreement: null
 notes:
-  - Confidence thresholds remain unset because proxies are teacher-specific and uncalibrated.
-  - Lexical agreement is an optional teacher-output proxy, not semantic equivalence.
-  - Number, abbreviated-unit, and negation preservation are hard rejection gates.
+  - Initial conservative research thresholds; not calibrated until a human audit is completed.
+  - Confidence and semantic gates remain disabled rather than mixing uncalibrated teacher scores.
+  - Language ID is audit-only until an immutable provider revision is approved.

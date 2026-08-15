@@ -32,6 +32,10 @@ class FilterThresholds(StrictModel):
     min_confidence_proxy: float | None = None
     min_lexical_agreement: float | None = Field(default=None, ge=0, le=1)
     require_language_id: bool = False
+    max_transcript_wer: float | None = Field(default=None, ge=0)
+    min_chars_per_second: float | None = Field(default=None, ge=0)
+    max_chars_per_second: float | None = Field(default=None, gt=0)
+    min_semantic_agreement: float | None = Field(default=None, ge=0, le=1)
 
 
 class FilterPolicy(FilterThresholds):
@@ -60,6 +64,9 @@ class FilterDecision(StrictModel):
     language_id_valid: bool | None
     repeated_token_fraction: float
     lexical_agreement: float | None
+    transcript_wer: float | None
+    chars_per_second: float
+    semantic_agreement: float | None
 
 
 def _normalized_tokens(text: str) -> list[str]:
@@ -101,6 +108,24 @@ def lexical_agreement(left: str, right: str) -> float:
     return len(left_tokens & right_tokens) / len(union) if union else 1.0
 
 
+def transcript_word_error_rate(reference: str, prediction: str) -> float:
+    expected = _normalized_tokens(reference)
+    actual = _normalized_tokens(prediction)
+    previous = list(range(len(actual) + 1))
+    for index, expected_word in enumerate(expected, start=1):
+        current = [index]
+        for other_index, actual_word in enumerate(actual, start=1):
+            current.append(
+                min(
+                    current[-1] + 1,
+                    previous[other_index] + 1,
+                    previous[other_index - 1] + (expected_word != actual_word),
+                )
+            )
+        previous = current
+    return previous[-1] / max(1, len(expected))
+
+
 def filter_prediction(
     source: ManifestRecord,
     prediction: CachedPrediction,
@@ -108,6 +133,8 @@ def filter_prediction(
     thresholds: FilterThresholds | None = None,
     secondary_text: str | None = None,
     language_id_valid: bool | None = None,
+    asr_transcript: str | None = None,
+    semantic_agreement: float | None = None,
 ) -> FilterDecision:
     if source.id != prediction.source_id:
         raise ValueError("prediction source ID does not match manifest record")
@@ -122,6 +149,10 @@ def filter_prediction(
     negation_preserved = not source_has_negation or target_has_negation
     repetition = repeated_token_fraction(prediction.text)
     agreement = lexical_agreement(prediction.text, secondary_text) if secondary_text else None
+    transcript_wer = (
+        transcript_word_error_rate(source.src_text, asr_transcript) if asr_transcript else None
+    )
+    characters_per_second = len(prediction.text.strip()) / source.duration_s
 
     if not numbers_preserved:
         reasons.append("numbers_not_preserved")
@@ -149,6 +180,27 @@ def filter_prediction(
         else:
             audit_flags.append("language_id_unverified")
 
+    if thresholds.max_transcript_wer is not None:
+        if transcript_wer is None:
+            reasons.append("asr_transcript_unavailable")
+        elif transcript_wer > thresholds.max_transcript_wer:
+            reasons.append("asr_transcript_wer_above_threshold")
+    if (
+        thresholds.min_chars_per_second is not None
+        and characters_per_second < thresholds.min_chars_per_second
+    ):
+        reasons.append("target_too_short_for_duration")
+    if (
+        thresholds.max_chars_per_second is not None
+        and characters_per_second > thresholds.max_chars_per_second
+    ):
+        reasons.append("target_too_long_for_duration")
+    if thresholds.min_semantic_agreement is not None:
+        if semantic_agreement is None:
+            reasons.append("semantic_agreement_unavailable")
+        elif semantic_agreement < thresholds.min_semantic_agreement:
+            reasons.append("semantic_agreement_below_threshold")
+
     return FilterDecision(
         keep=not reasons,
         reject_reasons=tuple(sorted(set(reasons))),
@@ -159,6 +211,9 @@ def filter_prediction(
         language_id_valid=language_id_valid,
         repeated_token_fraction=repetition,
         lexical_agreement=agreement,
+        transcript_wer=transcript_wer,
+        chars_per_second=characters_per_second,
+        semantic_agreement=semantic_agreement,
     )
 
 

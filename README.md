@@ -74,6 +74,12 @@ The foundation and interruption test are locally verified. Fresh Colab/T4 execut
 uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
 ```
 
+## Resumable pseudo-label shards
+
+`ShardRunner` sorts source IDs, hashes each shard input, writes JSONL atomically, and records attempts/output hashes in SQLite. Completed shards are integrity-checked and skipped on resume. Private `PseudoLabelCandidate` rows retain ASR, MT, direct-S2TT, revisions, licenses, timestamps, generation hashes, or an explicit failure stage/reason.
+
+Filtering adds source-transcript WER and duration/text-length gates to number, unit, negation, repetition, language-ID, and multi-teacher agreement checks. Reports separate accepted/rejected counts and hours by reason/domain/duration. Human false-accept/false-reject calibration remains pending; deterministic thresholds are not described as calibrated.
+
 ## Pinned teacher audit
 
 The first VI→EN audit contract pins Whisper Turbo ASR, NLLB-200 distilled 600M MT, and Whisper large-v3 direct speech translation to immutable Hugging Face commits. `openai/whisper-tiny` is pinned as the 39M smoke initialization. These are reproducibility declarations, not approvals or quality evidence.

@@ -50,5 +50,6 @@ def test_teacher_target_requires_complete_provenance() -> None:
         teacher_revision="revision-a",
         teacher_license="fixture-only",
         generation_config_sha256="a" * 64,
+        teacher_generated_at="2026-08-15T00:00:00+00:00",
     )
     assert teacher.teacher_revision == "revision-a"
