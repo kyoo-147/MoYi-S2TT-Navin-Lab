@@ -1,0 +1,9 @@
+direction: vi-en
+max_repeated_token_fraction: 0.5
+min_confidence_proxy: null
+min_lexical_agreement: null
+require_language_id: false
+notes:
+  - Confidence thresholds remain unset because proxies are teacher-specific and uncalibrated.
+  - Lexical agreement is an optional teacher-output proxy, not semantic equivalence.
+  - Number, abbreviated-unit, and negation preservation are hard rejection gates.

@@ -1,0 +1,17 @@
+version: 1
+directions: [vi-en]
+status: deterministic-smoke-only
+hard_checks:
+  - number-preservation
+  - abbreviated-unit-preservation
+  - negation-preservation
+  - repetition
+optional_checks:
+  - teacher-specific-confidence
+  - lexical-multi-teacher-agreement
+  - target-language-identification
+limitations:
+  - Lexical agreement is not semantic agreement.
+  - Language identification requires an external validated detector; unknown is retained as an audit flag.
+  - Unit matching currently covers symbols and abbreviations, not translated unit words.
+  - Passing filters does not make a teacher label gold or human-verified.
