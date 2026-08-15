@@ -168,6 +168,18 @@
       "default": null,
       "title": "Teacher Id"
     },
+    "teacher_license": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Teacher License"
+    },
     "teacher_revision": {
       "anyOf": [
         {

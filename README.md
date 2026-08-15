@@ -49,6 +49,16 @@ uv run moyi-s2tt validate-configs
 uv run moyi-s2tt list-directions
 ```
 
+## Offline teacher boundary
+
+Teacher candidates for Whisper, NLLB, OPUS-MT, and Seamless are declarative and validated with:
+
+```bash
+uv run moyi-s2tt validate-teachers
+```
+
+No teacher is approved or pinned yet, so production inference intentionally refuses to run. The shared interface and SQLite cache key every prediction by input content, teacher revision, and generation configuration. Cached labels retain teacher/license provenance and remain explicitly unfiltered until later quality gates accept or reject them. Bulk labels and cache databases are ignored by Git.
+
 ## Status
 
 The repository foundation and canonical manifest contracts are implemented. Pinned FLEURS metadata tooling can produce leakage-checked, metadata-only VI→EN rows; no FLEURS audio has been accepted or redistributed. No model-quality, accepted dataset-scale, mobile-latency, or accelerator-placement result is claimed until a versioned evidence artifact is produced.

@@ -43,6 +43,7 @@ class ManifestRecord(StrictModel):
     source_license: str
     teacher_id: str | None = None
     teacher_revision: str | None = None
+    teacher_license: str | None = None
     generation_config_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     materialization_status: MaterializationStatus = "metadata_only"
     quality_flags: tuple[str, ...] = ()
@@ -53,7 +54,12 @@ class ManifestRecord(StrictModel):
             raise ValueError("source and target languages must differ")
         if self.materialization_status == "ready" and not (self.audio_path and self.audio_sha256):
             raise ValueError("ready records require audio_path and audio_sha256")
-        teacher_fields = (self.teacher_id, self.teacher_revision, self.generation_config_sha256)
+        teacher_fields = (
+            self.teacher_id,
+            self.teacher_revision,
+            self.teacher_license,
+            self.generation_config_sha256,
+        )
         if self.target_kind == "teacher" and not all(teacher_fields):
             raise ValueError("teacher targets require teacher id, revision, and generation hash")
         if self.target_kind != "teacher" and any(teacher_fields):

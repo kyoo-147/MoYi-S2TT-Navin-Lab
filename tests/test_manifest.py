@@ -48,6 +48,7 @@ def test_teacher_target_requires_complete_provenance() -> None:
         target_kind="teacher",
         teacher_id="teacher-a",
         teacher_revision="revision-a",
+        teacher_license="fixture-only",
         generation_config_sha256="a" * 64,
     )
     assert teacher.teacher_revision == "revision-a"

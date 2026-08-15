@@ -1,0 +1,8 @@
+id: openai/whisper-large-v3
+task: s2tt
+status: candidate
+revision: null
+license: MIT
+research_only: false
+directions: [vi-en]
+notes: English-target translation reference only; not a multilingual target teacher.

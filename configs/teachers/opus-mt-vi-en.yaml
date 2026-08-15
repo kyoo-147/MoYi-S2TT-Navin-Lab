@@ -1,0 +1,8 @@
+id: Helsinki-NLP/opus-mt-vi-en
+task: mt
+status: hold
+revision: null
+license: model-card-specific-unverified
+research_only: true
+directions: [vi-en]
+notes: Hold until the exact model card, license, revision, and output quality are audited.

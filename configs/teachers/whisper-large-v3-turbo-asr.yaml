@@ -1,0 +1,8 @@
+id: openai/whisper-large-v3-turbo
+task: asr
+status: candidate
+revision: null
+license: MIT
+research_only: false
+directions: [vi-en, en-vi, vi-zh, zh-vi, vi-ko, ko-vi]
+notes: Revision and decoding contract must be pinned before inference.

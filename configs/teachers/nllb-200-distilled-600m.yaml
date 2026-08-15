@@ -1,0 +1,8 @@
+id: facebook/nllb-200-distilled-600M
+task: mt
+status: candidate
+revision: null
+license: CC-BY-NC-4.0
+research_only: true
+directions: [vi-en, en-vi, vi-zh, zh-vi, vi-ko, ko-vi]
+notes: Noncommercial research candidate; revision and language-token config are not approved yet.
