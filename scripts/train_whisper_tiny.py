@@ -148,6 +148,9 @@ def main() -> int:
         "report_to": [],
         "remove_unused_columns": False,
         "predict_with_generate": True,
+        "metric_for_best_model": config.checkpoint_metric,
+        "greater_is_better": config.greater_is_better,
+        "load_best_model_at_end": bool(validation),
     }
     if validation:
         common.update({"eval_strategy": "steps", "eval_steps": config.eval_steps})
