@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .config import validate_config_tree
 from .data.manifest import iter_manifest
+from .data.source import iter_source_manifest
 from .data.splits import find_split_leakage
 from .directions import ALL_DIRECTIONS
 from .teachers.catalog import load_teacher_catalog
@@ -22,6 +23,10 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--root", type=Path, default=Path.cwd())
     manifest = subparsers.add_parser("validate-manifest", help="validate JSONL and split safety")
     manifest.add_argument("path", type=Path)
+    source_manifest = subparsers.add_parser(
+        "validate-source-manifest", help="validate source JSONL and split safety"
+    )
+    source_manifest.add_argument("path", type=Path)
     teachers = subparsers.add_parser(
         "validate-teachers", help="validate declarative teacher candidates"
     )
@@ -43,6 +48,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         if issues:
             raise ValueError(f"manifest has {len(issues)} leakage or duplicate issue(s)")
         print(json.dumps({"rows": len(records), "split_issues": 0}, sort_keys=True))
+        return 0
+    if args.command == "validate-source-manifest":
+        source_records = list(iter_source_manifest(args.path))
+        issues = find_split_leakage(source_records)
+        if issues:
+            raise ValueError(f"source manifest has {len(issues)} leakage or duplicate issue(s)")
+        print(json.dumps({"rows": len(source_records), "split_issues": 0}, sort_keys=True))
         return 0
     if args.command == "validate-teachers":
         specs = load_teacher_catalog(args.root / "configs" / "teachers")

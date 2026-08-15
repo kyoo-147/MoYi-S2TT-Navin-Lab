@@ -8,10 +8,36 @@ import unicodedata
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
-
-from .manifest import ManifestRecord
+from typing import Protocol, TypeVar
 
 _SPACE = re.compile(r"\s+")
+T = TypeVar("T", bound="LeakageRecord")
+
+
+class LeakageRecord(Protocol):
+    @property
+    def id(self) -> str: ...
+
+    @property
+    def source_dataset(self) -> str: ...
+
+    @property
+    def source_item_id(self) -> str: ...
+
+    @property
+    def semantic_group_id(self) -> str: ...
+
+    @property
+    def src_text(self) -> str: ...
+
+    @property
+    def split(self) -> str: ...
+
+    @property
+    def audio_sha256(self) -> str | None: ...
+
+    @property
+    def speaker_id(self) -> str | None: ...
 
 
 @dataclass(frozen=True)
@@ -27,8 +53,8 @@ def normalized_text_hash(text: str) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
-def find_split_leakage(records: Iterable[ManifestRecord]) -> list[LeakageIssue]:
-    """Find source IDs, audio, or normalized source text crossing split boundaries."""
+def find_split_leakage(records: Iterable[LeakageRecord]) -> list[LeakageIssue]:
+    """Find speaker, source, audio, or normalized-text split crossings."""
 
     groups: dict[tuple[str, str], set[str]] = defaultdict(set)
     seen_ids: set[str] = set()
@@ -42,6 +68,9 @@ def find_split_leakage(records: Iterable[ManifestRecord]) -> list[LeakageIssue]:
         semantic_key = f"{record.source_dataset}:{record.semantic_group_id}"
         groups[("semantic_group", semantic_key)].add(record.split)
         groups[("source_text", normalized_text_hash(record.src_text))].add(record.split)
+        if record.speaker_id:
+            speaker_key = f"{record.source_dataset}:{record.speaker_id}"
+            groups[("speaker", speaker_key)].add(record.split)
         if record.audio_sha256:
             groups[("audio_sha256", record.audio_sha256)].add(record.split)
 
@@ -51,7 +80,7 @@ def find_split_leakage(records: Iterable[ManifestRecord]) -> list[LeakageIssue]:
     return issues
 
 
-def require_leakage_safe(records: Iterable[ManifestRecord]) -> list[ManifestRecord]:
+def require_leakage_safe(records: Iterable[T]) -> list[T]:
     materialized = list(records)
     issues = find_split_leakage(materialized)
     if issues:

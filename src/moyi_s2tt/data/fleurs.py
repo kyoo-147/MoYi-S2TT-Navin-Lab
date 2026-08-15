@@ -9,6 +9,7 @@ from pathlib import Path
 
 from ..directions import DIRECTION_KEYS
 from .manifest import LanguageCode, ManifestRecord, Split
+from .source import DatasetDescriptor, SourceBatch, SourceIssue, SourceRecord
 
 FLEURS_DATASET = "google/fleurs"
 FLEURS_LICENSE = "CC-BY-4.0"
@@ -20,6 +21,14 @@ FLEURS_LOCALES = {
     "zh": "cmn_hans_cn",
     "ko": "ko_kr",
 }
+FLEURS_DESCRIPTOR = DatasetDescriptor(
+    id=FLEURS_DATASET,
+    revision=FLEURS_REVISION,
+    license=FLEURS_LICENSE,
+    access="public",
+    homepage_url="https://huggingface.co/datasets/google/fleurs",
+    redistribution="allowed",
+)
 
 
 @dataclass(frozen=True)
@@ -34,6 +43,56 @@ class FleursRecord:
     @property
     def duration_s(self) -> float:
         return self.num_samples / FLEURS_SAMPLE_RATE
+
+
+@dataclass(frozen=True)
+class FleursSourceAdapter:
+    language: LanguageCode
+
+    @property
+    def descriptor(self) -> DatasetDescriptor:
+        return FLEURS_DESCRIPTOR
+
+    @property
+    def locale(self) -> str:
+        return FLEURS_LOCALES[self.language]
+
+    def adapt(self, records: Iterable[FleursRecord], split: Split) -> SourceBatch:
+        source_split = "dev" if split == "validation" else split
+        output: list[SourceRecord] = []
+        issues: list[SourceIssue] = []
+        for record in records:
+            if record.duration_s > 30:
+                issues.append(
+                    SourceIssue(source_item=record.audio_file, reason="duration_over_30_seconds")
+                )
+                continue
+            payload = "\0".join(
+                (FLEURS_DATASET, FLEURS_REVISION, self.locale, split, record.audio_file)
+            )
+            output.append(
+                SourceRecord(
+                    id=f"fleurs-source-{hashlib.sha256(payload.encode()).hexdigest()}",
+                    source_item_id=f"{record.sentence_id}:{record.audio_file}",
+                    semantic_group_id=record.sentence_id,
+                    source_locale=self.locale,
+                    source_audio_ref=(
+                        f"data/{self.locale}/audio/{source_split}/{record.audio_file}"
+                    ),
+                    duration_s=record.duration_s,
+                    source_sample_rate=FLEURS_SAMPLE_RATE,
+                    speaker_id=None,
+                    src_lang=self.language,
+                    src_text=record.raw_transcription,
+                    domain="general_read",
+                    split=split,
+                    source_dataset=FLEURS_DATASET,
+                    source_revision=FLEURS_REVISION,
+                    source_license=FLEURS_LICENSE,
+                    quality_flags=("metadata_only", "missing_speaker_id"),
+                )
+            )
+        return SourceBatch(records=tuple(output), issues=tuple(issues))
 
 
 def read_fleurs_tsv(path: Path) -> list[FleursRecord]:

@@ -9,11 +9,19 @@ sources:
       - manual-alignment-audit
       - audio-materialization-and-hash-validation
   - id: mozilla-common-voice
-    status: candidate
+    status: metadata-audited-access-pending
     intended_use: transcribed source speech for teacher-generated targets
-    license: release-specific
-    revision: null
+    license: CC0-1.0
+    revision: cv-corpus-26.0-2026-06-12
     accepted: false
+    access: authenticated-mozilla-data-collective
+    redistribution: restricted-by-current-common-voice-terms
+    acceptance_blockers:
+      - accept-exact-dataset-terms-in-mdc
+      - provide-mdc-api-key-outside-git
+      - verify-downloaded-archive-checksum
+      - parse-real-tsv-and-probe-audio
+      - verify-cross-split-leakage
   - id: covost-2
     status: candidate
     intended_use: genuine EN-ZH speech translation baseline

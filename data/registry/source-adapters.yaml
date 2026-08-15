@@ -1,0 +1,22 @@
+schema_version: 1
+adapters:
+  - id: google/fleurs
+    implementation: moyi_s2tt.data.fleurs.FleursSourceAdapter
+    status: metadata-only
+    revision: 70bb2e84b976b7e960aa89f1c648e09c59f894dd
+    license: CC-BY-4.0
+  - id: mozilla/common-voice-scripted-speech
+    implementation: moyi_s2tt.data.common_voice.CommonVoiceAdapter
+    status: metadata-audited-access-pending
+    revision: cv-corpus-26.0-2026-06-12
+    license: CC0-1.0
+  - id: facebook/covost-2
+    implementation: null
+    status: candidate-en-zh-only
+    revision: null
+    license: asset-specific
+  - id: ksponspeech
+    implementation: null
+    status: hold
+    revision: null
+    license: official-AIHub-terms-unverified

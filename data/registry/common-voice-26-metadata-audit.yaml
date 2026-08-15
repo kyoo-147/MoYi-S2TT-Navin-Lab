@@ -1,0 +1,80 @@
+dataset: mozilla/common-voice-scripted-speech
+release: '26.0'
+revision: cv-corpus-26.0-2026-06-12
+release_date: '2026-06-12'
+observed_at: '2026-08-15'
+license: CC0-1.0
+status: metadata-audited-access-pending
+access:
+  provider: Mozilla Data Collective
+  authentication_required: true
+  web_terms_acceptance_required: true
+  api_environment_variable: MDC_API_KEY
+  redistribution: restricted-by-current-common-voice-terms
+  downloaded_in_this_checkpoint: false
+public_stats:
+  repository: https://github.com/common-voice/cv-dataset
+  repository_revision: f99d8239d2796131b73ac99f92ee7cb4443bf3ba
+  path: datasets/scripted-speech/cv-corpus-26.0-2026-06-12.json
+  sha256: 1fc8baffece087182d769cdeb8af5ba35d603b1c7963ff21285422355edacac2
+locales:
+  vi:
+    archive_checksum_sha256: 5cc6d3ee20dcddd63f7d29357e23e4232251efb5a8d13c7f3833b615c489d7b3
+    archive_size_bytes: 484298643
+    clips: 20599
+    users: 417
+    total_hours: 22.96
+    validated_hours: 7.8
+    train_rows: 1846
+    validation_rows: 1512
+    test_rows: 1591
+    validated_rows: 7003
+  en:
+    archive_checksum_sha256: 6809228e6ab506d18f6a1ebc830056450f8266c8f513d6038bdb0fc88a49e6cb
+    archive_size_bytes: 94639372950
+    clips: 2583051
+    users: 100172
+    total_hours: 3780.95
+    validated_hours: 2784.88
+    train_rows: 1147812
+    validation_rows: 16403
+    test_rows: 16403
+    validated_rows: 1902564
+  zh-CN:
+    archive_checksum_sha256: 4d8322c782e425c9af2d41c476eb63cc81db83684e4e5d64a1bdee2c1acc84e9
+    archive_size_bytes: 22965003653
+    clips: 852010
+    users: 7580
+    total_hours: 1074.32
+    validated_hours: 239.59
+    train_rows: 29699
+    validation_rows: 10665
+    test_rows: 10665
+    validated_rows: 190017
+  ko:
+    archive_checksum_sha256: 169b269b86f0acd959d3f2fd1c098838ec458dbe0d4077a62b4bdb31ab2e8c4b
+    archive_size_bytes: 218377884
+    clips: 7178
+    users: 210
+    total_hours: 10.38
+    validated_hours: 2.54
+    train_rows: 679
+    validation_rows: 511
+    test_rows: 566
+    validated_rows: 1758
+terms:
+  dataset_page: https://commonvoice.mozilla.org/en/datasets
+  legal_terms: https://commonvoice.mozilla.org/terms
+  api_reference: https://mozilladatacollective.com/api-reference
+  content_license_finding: Dataset content is listed as CC0-1.0.
+  access_finding: Current terms make Common Voice available exclusively through MDC and ask users not to mirror or redistribute it.
+acceptance_blockers:
+  - accept-exact-v26-vietnamese-dataset-terms-in-mdc
+  - provide-mdc-api-key-outside-git
+  - download-and-verify-vietnamese-archive-checksum
+  - parse-real-tsv-and-probe-audio
+  - verify-speaker-sentence-audio-leakage-across-splits
+limitations:
+  - Public release statistics are not a substitute for parsing the downloaded archive.
+  - Official split counts do not prove speaker-disjoint or sentence-disjoint local manifests.
+  - No Common Voice audio or transcript row is redistributed by this repository.

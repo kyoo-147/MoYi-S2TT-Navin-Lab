@@ -1,0 +1,187 @@
+{
+  "additionalProperties": false,
+  "description": "One source utterance before a gold or teacher translation is attached.",
+  "properties": {
+    "audio_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Audio Path"
+    },
+    "audio_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Audio Sha256"
+    },
+    "domain": {
+      "enum": [
+        "conversation",
+        "industrial",
+        "general_read"
+      ],
+      "title": "Domain",
+      "type": "string"
+    },
+    "duration_s": {
+      "exclusiveMinimum": 0,
+      "maximum": 30,
+      "title": "Duration S",
+      "type": "number"
+    },
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9._-]+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "materialization_status": {
+      "default": "metadata_only",
+      "enum": [
+        "metadata_only",
+        "ready"
+      ],
+      "title": "Materialization Status",
+      "type": "string"
+    },
+    "quality_flags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Quality Flags",
+      "type": "array"
+    },
+    "semantic_group_id": {
+      "title": "Semantic Group Id",
+      "type": "string"
+    },
+    "source_audio_ref": {
+      "title": "Source Audio Ref",
+      "type": "string"
+    },
+    "source_channels": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Channels"
+    },
+    "source_codec": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Codec"
+    },
+    "source_dataset": {
+      "title": "Source Dataset",
+      "type": "string"
+    },
+    "source_item_id": {
+      "title": "Source Item Id",
+      "type": "string"
+    },
+    "source_license": {
+      "title": "Source License",
+      "type": "string"
+    },
+    "source_locale": {
+      "title": "Source Locale",
+      "type": "string"
+    },
+    "source_revision": {
+      "title": "Source Revision",
+      "type": "string"
+    },
+    "source_sample_rate": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Sample Rate"
+    },
+    "speaker_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Speaker Id"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "src_lang": {
+      "enum": [
+        "vi",
+        "en",
+        "zh",
+        "ko"
+      ],
+      "title": "Src Lang",
+      "type": "string"
+    },
+    "src_text": {
+      "minLength": 1,
+      "title": "Src Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "source_item_id",
+    "semantic_group_id",
+    "source_locale",
+    "source_audio_ref",
+    "duration_s",
+    "src_lang",
+    "src_text",
+    "domain",
+    "split",
+    "source_dataset",
+    "source_revision",
+    "source_license"
+  ],
+  "title": "SourceRecord",
+  "type": "object"
+}

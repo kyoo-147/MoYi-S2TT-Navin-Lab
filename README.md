@@ -49,6 +49,10 @@ uv run moyi-s2tt validate-configs
 uv run moyi-s2tt list-directions
 ```
 
+## Licensed source adapters
+
+FLEURS and Common Voice share a canonical source-audio contract. Common Voice Scripted Speech 26.0 is pinned for VI/EN/ZH-CN/KO metadata, with VI first. Its content is listed as CC0-1.0, while current access terms require Mozilla Data Collective authentication and terms acceptance and restrict mirroring. No Common Voice archive or row is redistributed here, and the source remains unaccepted until a real archive checksum, TSV parse, audio probe, and cross-split leakage report pass.
+
 ## Offline teacher boundary
 
 Teacher candidates for Whisper, NLLB, OPUS-MT, and Seamless are declarative and validated with:

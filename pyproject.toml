@@ -12,6 +12,11 @@ dependencies = [
 [project.scripts]
 moyi-s2tt = "moyi_s2tt.cli:main"
 
+[project.optional-dependencies]
+data = [
+    "datacollective==0.5.7",
+]
+
 [dependency-groups]
 dev = [
   "mypy>=1.17,<2",
