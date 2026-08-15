@@ -22,3 +22,11 @@ def test_approved_source_path_passes(tmp_path: Path) -> None:
     source.parent.mkdir(parents=True)
     source.write_text("VALUE = 1\n", encoding="utf-8")
     assert check_paths(tmp_path, [source]) == []
+
+
+def test_tsv_fixtures_are_scanned_for_secrets(tmp_path: Path) -> None:
+    fixture = tmp_path / "tests" / "fixtures" / "rows.tsv"
+    fixture.parent.mkdir(parents=True)
+    fixture.write_text("token\t" + "ghp_" + "A" * 24 + "\n", encoding="utf-8")
+    errors = check_paths(tmp_path, [fixture])
+    assert any("GitHub token" in error for error in errors)

@@ -1,0 +1,7 @@
+client_id	path	sentence_id	sentence	sentence_domain	up_votes	down_votes	age	gender	accents	variant	locale	segment
+speaker-a	clip-a.mp3	sentence-a	Khởi động máy số ba.	general	2	0	thirties	female_feminine		vi-hanoi	vi
+	clip-b.mp3	sentence-b	Đóng van an toàn.	technology_robotics	3	0					vi
+speaker-c	bad-votes.mp3	sentence-c	Dòng bị loại.	general	0	2					vi
+speaker-d	../escape.mp3	sentence-d	Đường dẫn không an toàn.	general	2	0					vi
+speaker-d2	..\escape.mp3	sentence-d2	Đường dẫn Windows không an toàn.	general	2	0					vi
+speaker-e	long.mp3	sentence-e	Đoạn âm thanh quá dài.	general	2	0					vi

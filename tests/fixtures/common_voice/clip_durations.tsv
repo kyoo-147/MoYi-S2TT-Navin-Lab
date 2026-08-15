@@ -1,0 +1,9 @@
+clip	duration[ms]
+clip-a.mp3	2000
+clip-b.mp3	2500
+bad-votes.mp3	1800
+../escape.mp3	1900
+..\escape.mp3	1900
+long.mp3	31000
+clip-dev.mp3	2200
+clip-test.mp3	2100
