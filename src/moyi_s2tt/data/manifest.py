@@ -16,6 +16,7 @@ Split = Literal["train", "validation", "test"]
 TargetKind = Literal["gold", "teacher", "synthetic"]
 Domain = Literal["conversation", "industrial", "general_read"]
 MaterializationStatus = Literal["metadata_only", "ready"]
+FilterStatus = Literal["unreviewed", "keep", "reject"]
 
 
 class ManifestRecord(StrictModel):
@@ -46,6 +47,8 @@ class ManifestRecord(StrictModel):
     teacher_license: str | None = None
     generation_config_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     materialization_status: MaterializationStatus = "metadata_only"
+    filter_decision: FilterStatus = "unreviewed"
+    filter_reasons: tuple[str, ...] = ()
     quality_flags: tuple[str, ...] = ()
 
     @model_validator(mode="after")
@@ -64,6 +67,12 @@ class ManifestRecord(StrictModel):
             raise ValueError("teacher targets require teacher id, revision, and generation hash")
         if self.target_kind != "teacher" and any(teacher_fields):
             raise ValueError("teacher provenance is only valid for teacher targets")
+        if self.target_kind != "teacher" and self.filter_decision != "unreviewed":
+            raise ValueError("filter decisions are only valid for teacher targets")
+        if self.filter_decision == "reject" and not self.filter_reasons:
+            raise ValueError("rejected teacher targets require filter reasons")
+        if self.filter_decision != "reject" and self.filter_reasons:
+            raise ValueError("filter reasons are only valid for rejected teacher targets")
         return self
 
 

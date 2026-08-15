@@ -42,6 +42,24 @@
       "title": "Duration S",
       "type": "number"
     },
+    "filter_decision": {
+      "default": "unreviewed",
+      "enum": [
+        "unreviewed",
+        "keep",
+        "reject"
+      ],
+      "title": "Filter Decision",
+      "type": "string"
+    },
+    "filter_reasons": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Filter Reasons",
+      "type": "array"
+    },
     "generation_config_sha256": {
       "anyOf": [
         {
