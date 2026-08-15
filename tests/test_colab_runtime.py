@@ -39,5 +39,8 @@ def test_all_colab_notebooks_are_clean_and_thin() -> None:
             for cell in payload["cells"]
             if cell["cell_type"] == "code"
         )
-        assert "moyi_s2tt.runtime.runner" in code
+        assert (
+            "moyi_s2tt.runtime.runner" in code
+            or "scripts/run_teacher_audit.py" in code
+        )
         assert "drive.google.com" not in code

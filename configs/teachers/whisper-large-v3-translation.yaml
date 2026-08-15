@@ -1,8 +1,10 @@
 id: openai/whisper-large-v3
 task: s2tt
-status: candidate
-revision: null
-license: MIT
+status: pinned
+revision: 06f233fe06e710322aca913c1bc4249a0d71fce1
+license: Apache-2.0
 research_only: false
 directions: [vi-en]
-notes: English-target translation reference only; not a multilingual target teacher.
+model_card_url: https://huggingface.co/openai/whisper-large-v3
+license_url: https://www.apache.org/licenses/LICENSE-2.0
+notes: Pinned English-target audit reference only; not approved or a gold reference.

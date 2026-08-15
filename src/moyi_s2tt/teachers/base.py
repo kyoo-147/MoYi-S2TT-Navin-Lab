@@ -14,7 +14,7 @@ from ..data.manifest import LanguageCode
 from ..directions import DIRECTION_KEYS
 
 TeacherTask = Literal["asr", "mt", "s2tt"]
-TeacherStatus = Literal["candidate", "approved", "hold"]
+TeacherStatus = Literal["candidate", "pinned", "approved", "hold"]
 JsonScalar = str | int | float | bool | None
 
 
@@ -26,6 +26,8 @@ class TeacherSpec(StrictModel):
     license: str
     research_only: bool
     directions: tuple[str, ...]
+    model_card_url: str | None = None
+    license_url: str | None = None
     notes: str = ""
 
     @model_validator(mode="after")
@@ -33,8 +35,8 @@ class TeacherSpec(StrictModel):
         unknown = set(self.directions) - DIRECTION_KEYS
         if unknown:
             raise ValueError(f"unsupported teacher directions: {sorted(unknown)}")
-        if self.status == "approved" and not self.revision:
-            raise ValueError("approved teachers require a pinned revision")
+        if self.status in {"pinned", "approved"} and not self.revision:
+            raise ValueError("pinned and approved teachers require an immutable revision")
         return self
 
 

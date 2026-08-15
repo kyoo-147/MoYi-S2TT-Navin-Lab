@@ -38,11 +38,23 @@ class StudentTierConfig(StrictModel):
     parameter_min_millions: int = Field(gt=0)
     parameter_max_millions: int = Field(gt=0)
     deployment_gate: str
+    initialization_id: str | None = None
+    initialization_revision: str | None = None
+    initialization_license: str | None = None
 
     @model_validator(mode="after")
     def validate_range(self) -> "StudentTierConfig":
         if self.parameter_min_millions > self.parameter_max_millions:
             raise ValueError("parameter range is reversed")
+        initialization = (
+            self.initialization_id,
+            self.initialization_revision,
+            self.initialization_license,
+        )
+        if any(initialization) and not all(initialization):
+            raise ValueError(
+                "student initialization ID, revision, and license must be pinned together"
+            )
         return self
 
 

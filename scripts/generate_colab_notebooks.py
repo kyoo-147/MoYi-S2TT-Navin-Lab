@@ -5,6 +5,54 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+BOOTSTRAP = '''import os
+import subprocess
+from pathlib import Path
+
+if not Path("pyproject.toml").is_file():
+    revision = os.environ.get("MOYI_REPO_REVISION", "main")
+    checkout = Path("/content/moyi-s2tt-lab")
+    subprocess.run(
+        [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "--branch",
+            revision,
+            "https://github.com/kyoo-147/MoYi-S2TT-Navin-Lab.git",
+            str(checkout),
+        ],
+        check=True,
+    )
+    os.chdir(checkout)
+'''
+
+
+TEACHER_COMMAND = '''import os
+import subprocess
+
+private_root = os.environ.get("MOYI_PRIVATE_ROOT")
+assert private_root, "Set MOYI_PRIVATE_ROOT to private Drive storage"
+subprocess.run(["python", "scripts/materialize_fleurs_audit.py", "--limit", "100"], check=True)
+subprocess.run(
+    [
+        "python",
+        "scripts/run_teacher_audit.py",
+        "--config",
+        "configs/inference/vi-en-teacher-audit.yaml",
+        "--manifest",
+        f"{private_root}/fleurs-audit/source.jsonl",
+        "--audio-root",
+        f"{private_root}/fleurs-audit",
+        "--report",
+        "data/evidence/vi-en-teacher-audit-v1.json",
+    ],
+    check=True,
+)
+'''
+
+
 NOTEBOOKS = {
     "00_environment_check.ipynb": "environment",
     "01_data_smoke.ipynb": "data",
@@ -17,20 +65,21 @@ NOTEBOOKS = {
 
 
 def notebook(command: str) -> dict[str, object]:
-    runtime_command = (
-        "!python -m moyi_s2tt.runtime.runner environment"
-        if command == "environment"
-        else f"!python -m moyi_s2tt.runtime.runner stage {command}"
-    )
+    if command == "environment":
+        runtime_command = "!python -m moyi_s2tt.runtime.runner environment"
+    elif command == "teacher":
+        runtime_command = TEACHER_COMMAND
+    else:
+        runtime_command = f"!python -m moyi_s2tt.runtime.runner stage {command}"
     return {
         "cells": [
             {
                 "cell_type": "markdown",
                 "metadata": {},
                 "source": [
-                    "# MoYi S2TT Colab stage\\n",
+                    "# MoYi S2TT Colab stage\n",
                     "This clean notebook delegates to versioned package code. ",
-                    "Private paths come from `MOYI_PRIVATE_ROOT`.\\n",
+                    "Private paths come from `MOYI_PRIVATE_ROOT`.\n",
                 ],
             },
             {
@@ -38,14 +87,21 @@ def notebook(command: str) -> dict[str, object]:
                 "execution_count": None,
                 "metadata": {},
                 "outputs": [],
-                "source": ["%pip install -r requirements/colab.lock.txt\\n"],
+                "source": [BOOTSTRAP],
             },
             {
                 "cell_type": "code",
                 "execution_count": None,
                 "metadata": {},
                 "outputs": [],
-                "source": [runtime_command + "\\n"],
+                "source": ["%pip install -r requirements/colab.lock.txt\n"],
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [runtime_command + "\n"],
             },
         ],
         "metadata": {

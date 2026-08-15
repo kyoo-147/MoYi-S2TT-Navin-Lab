@@ -1,0 +1,38 @@
+schema_version: 1
+id: vi-en-teacher-audit-v1
+direction: vi-en
+seed: 147
+max_rows: 100
+max_audio_seconds: 30
+source_split: train
+frozen_evaluation: data/evaluation/vi-en-fleurs-v1.json
+asr:
+  spec: configs/teachers/whisper-large-v3-turbo-asr.yaml
+  batch_size: 2
+  parameters:
+    language: vi
+    task: transcribe
+    num_beams: 1
+    do_sample: false
+    max_new_tokens: 256
+mt:
+  spec: configs/teachers/nllb-200-distilled-600m.yaml
+  batch_size: 8
+  parameters:
+    source_language_token: vie_Latn
+    target_language_token: eng_Latn
+    num_beams: 5
+    do_sample: false
+    max_new_tokens: 256
+direct_s2tt:
+  spec: configs/teachers/whisper-large-v3-translation.yaml
+  batch_size: 1
+  parameters:
+    language: vi
+    task: translate
+    num_beams: 1
+    do_sample: false
+    max_new_tokens: 256
+seamless_m4t:
+  status: hold
+  reason: Excluded from the first audit pending separate terms and output review.
