@@ -74,6 +74,10 @@ The foundation and interruption test are locally verified. Fresh Colab/T4 execut
 uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
 ```
 
+## Frozen non-KD baseline
+
+`vi-en-non-kd-baseline-v1` freezes the same Tiny initialization, seed, 500-row/500-step budget, evaluation freeze, and `eval_loss` checkpoint rule used for later KD comparison. Its data policy permits only genuine `gold` references and rejects teacher/synthetic contamination. The run is truthfully `BLOCKED`: no accepted genuine VI→EN speech-translation training manifest exists yet.
+
 ## Whisper Tiny training gate
 
 The 39M `openai/whisper-tiny` initialization is pinned for two VI→EN pipeline gates: a deterministic 32-row overfit run and a bounded 500-row smoke run. Selection hashes seed/source IDs, validates audio hashes and frozen-evaluation exclusion, and uses length-bounded materialized audio only.

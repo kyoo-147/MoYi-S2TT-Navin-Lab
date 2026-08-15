@@ -40,6 +40,9 @@ class TrainingConfig(StrictModel):
     target_language: str
     task: Literal["translate"]
     expected_parameter_range_millions: tuple[int, int]
+    allowed_target_kinds: tuple[Literal["gold", "teacher"], ...] = ("gold", "teacher")
+    checkpoint_metric: str = "eval_loss"
+    greater_is_better: bool = False
 
     @model_validator(mode="after")
     def validate_training(self) -> TrainingConfig:
@@ -82,6 +85,7 @@ def select_training_rows(
         and row.duration_s <= config.max_audio_seconds
         and row.materialization_status == "ready"
         and row.filter_decision != "reject"
+        and row.target_kind in config.allowed_target_kinds
     ]
     ordered = sorted(
         eligible,

@@ -1,0 +1,18 @@
+schema_version: 1
+run_id: vi-en-non-kd-baseline-v1
+status: BLOCKED
+reason: No accepted genuine VI-EN speech-translation training manifest is available.
+student:
+  id: openai/whisper-tiny
+  revision: 169d4a4341b33bc18d8881c4b69c2e104e1cc0af
+allowed_target_kinds: [gold]
+forbidden_target_kinds: [teacher, synthetic]
+seed: 147
+budget: {max_rows: 500, max_steps: 500}
+evaluation_freeze: vi-en-fleurs-v1
+checkpoint_selection: {metric: eval_loss, greater_is_better: false}
+variance_runs: 0
+truth_boundary:
+  - No baseline checkpoint, quality score, cost, or runtime exists.
+  - FLEURS aligned evaluation references are frozen evaluation data, not training data.
+  - The baseline must not silently substitute teacher labels for genuine references.
