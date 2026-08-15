@@ -1,0 +1,124 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "critical_categories": {
+      "default": [],
+      "items": {
+        "enum": [
+          "number",
+          "decimal",
+          "unit",
+          "negation",
+          "proper_noun",
+          "machine_id",
+          "safety_command",
+          "industrial_term"
+        ],
+        "type": "string"
+      },
+      "title": "Critical Categories",
+      "type": "array"
+    },
+    "frozen_set_id": {
+      "title": "Frozen Set Id",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "reference_kind": {
+      "enum": [
+        "dataset_reference",
+        "human_reviewed"
+      ],
+      "title": "Reference Kind",
+      "type": "string"
+    },
+    "reference_text": {
+      "title": "Reference Text",
+      "type": "string"
+    },
+    "review_notes": {
+      "default": "",
+      "title": "Review Notes",
+      "type": "string"
+    },
+    "review_status": {
+      "enum": [
+        "pending",
+        "accepted",
+        "rejected"
+      ],
+      "title": "Review Status",
+      "type": "string"
+    },
+    "reviewer_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reviewer Id"
+    },
+    "semantic_group_id": {
+      "title": "Semantic Group Id",
+      "type": "string"
+    },
+    "source_manifest_id": {
+      "title": "Source Manifest Id",
+      "type": "string"
+    },
+    "source_text": {
+      "title": "Source Text",
+      "type": "string"
+    },
+    "split": {
+      "enum": [
+        "validation",
+        "test"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "src_lang": {
+      "enum": [
+        "vi",
+        "en",
+        "zh",
+        "ko"
+      ],
+      "title": "Src Lang",
+      "type": "string"
+    },
+    "tgt_lang": {
+      "enum": [
+        "vi",
+        "en",
+        "zh",
+        "ko"
+      ],
+      "title": "Tgt Lang",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "frozen_set_id",
+    "source_manifest_id",
+    "semantic_group_id",
+    "split",
+    "src_lang",
+    "tgt_lang",
+    "source_text",
+    "reference_text",
+    "reference_kind",
+    "review_status"
+  ],
+  "title": "EvaluationReference",
+  "type": "object"
+}

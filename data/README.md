@@ -55,3 +55,16 @@ uv run python scripts/prepare_common_voice_manifest.py \
 ```
 
 Downloaded archives, extracted audio, generated manifests, credentials, and SDK logs are not public repository artifacts.
+
+## Frozen evaluation IDs
+
+Regenerate the VI→EN FLEURS freeze from the pinned, ignored metadata download and verify its canonical hash:
+
+```bash
+uv run python scripts/freeze_fleurs_evaluation.py \
+  --source-root data/downloads/fleurs/<revision>/vi_vn \
+  --target-root data/downloads/fleurs/<revision>/en_us
+uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
+```
+
+Every future training or pseudo-label pipeline must call the contamination gate against the 496 frozen exclusion IDs.

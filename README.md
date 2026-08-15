@@ -53,6 +53,14 @@ uv run moyi-s2tt list-directions
 
 FLEURS and Common Voice share a canonical source-audio contract. Common Voice Scripted Speech 26.0 is pinned for VI/EN/ZH-CN/KO metadata, with VI first. Its content is listed as CC0-1.0, while current access terms require Mozilla Data Collective authentication and terms acceptance and restrict mirroring. No Common Voice archive or row is redistributed here, and the source remains unaccepted until a real archive checksum, TSV parse, audio probe, and cross-split leakage report pass.
 
+## Frozen evaluation
+
+`vi-en-fleurs-v1` freezes 149 aligned validation and 347 aligned test semantic IDs at the pinned FLEURS revision. Their 496-ID union is a mandatory exclusion set for training and pseudo-label generation. Conversation and industrial human evaluation remain explicitly unavailable; FLEURS read speech is not used to claim those domains.
+
+```bash
+uv run moyi-s2tt validate-evaluation data/evaluation/vi-en-fleurs-v1.json
+```
+
 ## Offline teacher boundary
 
 Teacher candidates for Whisper, NLLB, OPUS-MT, and Seamless are declarative and validated with:

@@ -10,6 +10,7 @@ from .data.manifest import iter_manifest
 from .data.source import iter_source_manifest
 from .data.splits import find_split_leakage
 from .directions import ALL_DIRECTIONS
+from .evaluation.contracts import load_frozen_evaluation
 from .teachers.catalog import load_teacher_catalog
 
 
@@ -27,6 +28,10 @@ def build_parser() -> argparse.ArgumentParser:
         "validate-source-manifest", help="validate source JSONL and split safety"
     )
     source_manifest.add_argument("path", type=Path)
+    evaluation = subparsers.add_parser(
+        "validate-evaluation", help="validate a frozen evaluation contract"
+    )
+    evaluation.add_argument("path", type=Path)
     teachers = subparsers.add_parser(
         "validate-teachers", help="validate declarative teacher candidates"
     )
@@ -55,6 +60,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         if issues:
             raise ValueError(f"source manifest has {len(issues)} leakage or duplicate issue(s)")
         print(json.dumps({"rows": len(source_records), "split_issues": 0}, sort_keys=True))
+        return 0
+    if args.command == "validate-evaluation":
+        frozen = load_frozen_evaluation(args.path)
+        print(
+            json.dumps(
+                {
+                    "sha256": frozen.sha256,
+                    "test": len(frozen.test_semantic_ids),
+                    "training_exclusions": len(frozen.training_exclusion_semantic_ids),
+                    "validation": len(frozen.validation_semantic_ids),
+                },
+                sort_keys=True,
+            )
+        )
         return 0
     if args.command == "validate-teachers":
         specs = load_teacher_catalog(args.root / "configs" / "teachers")

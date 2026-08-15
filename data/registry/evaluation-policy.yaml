@@ -1,0 +1,37 @@
+version: 1
+primary_frozen_set: vi-en-fleurs-v1
+primary_contract_sha256: 0a8ef907dd1b3f123e6f05daa1010d1fc190714c376075cca43b96935ddd0901
+frozen_counts:
+  validation_semantic_ids: 149
+  test_semantic_ids: 347
+  training_exclusion_semantic_ids: 496
+status: frozen-read-speech-anchor
+rules:
+  - Freeze semantic IDs before pseudo-label generation or training.
+  - Exclude all validation and test semantic IDs from every training source.
+  - Dataset references or accepted human references are allowed as targets.
+  - Teacher-generated targets are forbidden as final evaluation references.
+  - Report read-speech, conversation, and industrial slices separately.
+critical_categories:
+  - number
+  - decimal
+  - unit
+  - negation
+  - proper_noun
+  - machine_id
+  - safety_command
+  - industrial_term
+slices:
+  fleurs_general_read:
+    status: frozen
+    reference_kind: dataset_reference
+  conversation_human:
+    status: UNAVAILABLE
+    reason: No approved human-reviewed conversational VI-EN audio set exists yet.
+  industrial_human:
+    status: UNAVAILABLE
+    reason: No approved human-recorded and human-reviewed industrial VI-EN set exists yet.
+prohibitions:
+  - Do not use teacher outputs as gold evaluation references.
+  - Do not use synthetic or TTS audio as physical human-speech evidence.
+  - Do not claim conversation or industrial performance from FLEURS read speech.
