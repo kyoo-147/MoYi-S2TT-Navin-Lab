@@ -30,6 +30,8 @@ data/interim/
 data/processed/
 data/pseudo_labels/
 data/downloads/
+data/manifests/*
+!data/manifests/.gitkeep
 
 # Training and export artifacts
 checkpoints/
