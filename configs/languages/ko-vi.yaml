@@ -1,0 +1,7 @@
+key: ko-vi
+source_language: ko
+target_language: vi
+enabled: false
+target_control_token: <2vi>
+teacher_chain: [whisper-asr, nllb, seamless-audit]
+sampling_weight: 1.0

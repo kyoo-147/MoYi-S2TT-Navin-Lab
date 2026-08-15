@@ -1,0 +1,5 @@
+name: base
+role: Primary quality candidate
+parameter_min_millions: 120
+parameter_max_millions: 160
+deployment_gate: Preferred only when Pareto evidence beats the mobile tier

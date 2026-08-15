@@ -1,0 +1,7 @@
+key: en-vi
+source_language: en
+target_language: vi
+enabled: false
+target_control_token: <2vi>
+teacher_chain: [whisper-asr, opus-mt, nllb]
+sampling_weight: 1.0

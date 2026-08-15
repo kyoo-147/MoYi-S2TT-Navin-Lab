@@ -1,0 +1,5 @@
+name: plus
+role: Optional quality upper bound
+parameter_min_millions: 200
+parameter_max_millions: 250
+deployment_gate: Evaluate only after smaller tiers pass and phone RAM/latency remain acceptable
