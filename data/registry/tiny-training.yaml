@@ -1,0 +1,16 @@
+schema_version: 1
+model_id: openai/whisper-tiny
+model_revision: 169d4a4341b33bc18d8881c4b69c2e104e1cc0af
+model_license: Apache-2.0
+parameter_class_millions: 39
+status: RUNNER_VERIFIED_GPU_RUN_BLOCKED
+runs:
+  overfit: NOT_RUN
+  smoke: NOT_RUN
+resume_contract:
+  required: [trainer_state.json, optimizer.pt, scheduler.pt, rng_state.pth]
+  compatibility: [config_sha256, data_sha256, model_revision, selected_ids]
+truth_boundary:
+  - No overfit, decoded VI-EN sample, loss curve, throughput, or checkpoint exists yet.
+  - Tiny is only a pipeline gate and never a product-quality claim.
+  - Real execution depends on accepted private teacher/reference rows and signed-in Colab GPU access.

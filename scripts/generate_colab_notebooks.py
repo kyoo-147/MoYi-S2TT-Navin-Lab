@@ -53,6 +53,29 @@ subprocess.run(
 '''
 
 
+TINY_COMMAND = '''import os
+import subprocess
+
+private_root = os.environ.get("MOYI_PRIVATE_ROOT")
+assert private_root, "Set MOYI_PRIVATE_ROOT to private Drive storage"
+subprocess.run(
+    [
+        "python",
+        "scripts/train_whisper_tiny.py",
+        "--config",
+        "configs/training/vi-en-tiny-overfit.yaml",
+        "--manifest",
+        f"{private_root}/pseudo-labels/accepted.jsonl",
+        "--audio-root",
+        f"{private_root}/fleurs-audit",
+        "--report",
+        "data/evidence/vi-en-tiny-overfit-v1.json",
+    ],
+    check=True,
+)
+'''
+
+
 NOTEBOOKS = {
     "00_environment_check.ipynb": "environment",
     "01_data_smoke.ipynb": "data",
@@ -69,6 +92,8 @@ def notebook(command: str) -> dict[str, object]:
         runtime_command = "!python -m moyi_s2tt.runtime.runner environment"
     elif command == "teacher":
         runtime_command = TEACHER_COMMAND
+    elif command == "tiny":
+        runtime_command = TINY_COMMAND
     else:
         runtime_command = f"!python -m moyi_s2tt.runtime.runner stage {command}"
     return {
