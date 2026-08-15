@@ -1,0 +1,38 @@
+dataset: google/fleurs
+revision: 70bb2e84b976b7e960aa89f1c648e09c59f894dd
+observed_at: '2026-08-15'
+license: CC-BY-4.0
+status: metadata-audited-not-accepted
+locales:
+  vi_vn:
+    train_rows: 2994
+    validation_rows: 361
+    test_rows: 857
+  en_us:
+    train_rows: 2602
+    validation_rows: 394
+    test_rows: 647
+aligned_vi_en:
+  shared_sentence_ids:
+    train: 1449
+    validation: 149
+    test: 347
+  source_utterance_rows_at_or_below_30_seconds:
+    train: 2923
+    validation: 359
+    test: 850
+  cross_split_sentence_id_collisions: 0
+metadata_sha256:
+  vi_vn:
+    train: c714df11001942e0d1b3a00c0928828b30beb2e6331786032f7bf75d8ff88563
+    validation: c9bc17cede9765b1c75cb7a608f7066cb6bb6f8245cc75d721a5217a5dffb414
+    test: eb744c2be5f677b49c35527d428a4f647294bd0f67abd790c296e91efaaffb93
+  en_us:
+    train: 3ccfc83672cc03a835143e325abb38b4163e3a21725bc1a7d1165bc309b95852
+    validation: 9d57ee7e91e9d4c92edb39f6bbea668ef8dc2a3ff96eb510d5580b2ad05d17ec
+    test: 74c046239374deeb60fa63f258f907388093a32bcaa3140965f70ef05c79f7ca
+limitations:
+  - Counts describe pinned TSV metadata, not downloaded or accepted audio.
+  - Cross-locale sentence-ID alignment still requires a manual semantic audit.
+  - Public TSV metadata does not expose speaker IDs; official split provenance is retained.
+  - No conversation or industrial-domain performance can be inferred from this read-speech seed.
