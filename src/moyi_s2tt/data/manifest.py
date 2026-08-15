@@ -46,6 +46,8 @@ class ManifestRecord(StrictModel):
     teacher_revision: str | None = None
     teacher_license: str | None = None
     generation_config_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    teacher_generated_at: str | None = None
+    teacher_chain_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     materialization_status: MaterializationStatus = "metadata_only"
     filter_decision: FilterStatus = "unreviewed"
     filter_reasons: tuple[str, ...] = ()
@@ -62,10 +64,11 @@ class ManifestRecord(StrictModel):
             self.teacher_revision,
             self.teacher_license,
             self.generation_config_sha256,
+            self.teacher_generated_at,
         )
         if self.target_kind == "teacher" and not all(teacher_fields):
             raise ValueError("teacher targets require teacher id, revision, and generation hash")
-        if self.target_kind != "teacher" and any(teacher_fields):
+        if self.target_kind != "teacher" and (any(teacher_fields) or self.teacher_chain_sha256):
             raise ValueError("teacher provenance is only valid for teacher targets")
         if self.target_kind != "teacher" and self.filter_decision != "unreviewed":
             raise ValueError("filter decisions are only valid for teacher targets")

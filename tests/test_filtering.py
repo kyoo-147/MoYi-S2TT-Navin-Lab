@@ -57,6 +57,7 @@ def teacher_record(text: str) -> ManifestRecord:
             "teacher_revision": "v1",
             "teacher_license": "fixture-only",
             "generation_config_sha256": "b" * 64,
+            "teacher_generated_at": "2026-08-15T00:00:00+00:00",
             "quality_flags": ("teacher_label_unfiltered",),
         }
     )
@@ -122,3 +123,15 @@ def test_repository_filter_policy_is_validated() -> None:
     policy = load_filter_policy(root / "configs" / "filtering" / "vi-en.yaml")
     assert policy.direction == "vi-en"
     assert policy.min_confidence_proxy is None
+
+
+def test_transcript_and_duration_sanity_gates() -> None:
+    decision = filter_prediction(
+        source("đóng van an toàn"),
+        prediction("close the valve with an excessively verbose explanation"),
+        thresholds=FilterThresholds(max_transcript_wer=0.2, max_chars_per_second=10),
+        asr_transcript="mở cửa hoàn toàn",
+    )
+    assert "asr_transcript_wer_above_threshold" in decision.reject_reasons
+    assert "target_too_long_for_duration" in decision.reject_reasons
+    assert decision.transcript_wer == 0.75

@@ -24,6 +24,7 @@ def apply_teacher_prediction(
             "teacher_revision": prediction.teacher_revision,
             "teacher_license": prediction.teacher_license,
             "generation_config_sha256": prediction.generation_config_sha256,
+            "teacher_generated_at": prediction.generated_at,
             "quality_flags": tuple(
                 sorted(set(source.quality_flags) | {"teacher_label_unfiltered"})
             ),
